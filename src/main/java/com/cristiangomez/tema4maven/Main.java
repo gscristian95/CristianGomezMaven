@@ -8,15 +8,17 @@ import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         //Variables
-        String texto = "Cristian Gómez";
-        String banner = FigletFont.convertOneLine(texto);
-        int velocidadAnimacion = 100;
+        final String NAME = "Cristian Gomez";
+        String banner = FigletFont.convertOneLine(NAME);
+        final int VELOCIDAD_ANIMACION = 100;
 
-        ArrayList<String> guion = new ArrayList<>(); //Creo la lista (rollo de película)
+        List<String> guion = new ArrayList<>(); //Creo la lista (rollo de película)
 
         //Añado el banner (esto trocea el banner para que entre línea por línea)
         for (String linea : banner.split("\n")) {
@@ -24,23 +26,25 @@ public class Main {
         }
 
         //Añado mi CV a la lista
-        guion.add("");
-        guion.add("=== CURRICULUM VITAE ===");
-        guion.add("");
-        guion.add("Puesto actual:");
-        guion.add("   Estudiante de 1er curso de DAW");
-        guion.add("   (Desarrollo de Aplicaciones Web)");
-        guion.add("");
-        guion.add("Tecnologías y Habilidades:");
-        guion.add("--------------------------");
-        guion.add("* Lenguajes de Marca: HTML & CSS");
-        guion.add("* SQL");
-        guion.add("* Java");
-        guion.add("* Control de versiones: Git & GitHub");
-        guion.add("* Administración de sistemas: Bash");
-        guion.add("* Herramientas de construcción: Maven");
-        guion.add("");
-        guion.add("¡Gracias por ver mi presentación!");
+        guion.addAll(Arrays.asList(
+                "",
+                "=== CURRICULUM VITAE ===",
+                "",
+                "Puesto actual:",
+                "   Estudiante de 1er curso de DAW",
+                "   (Desarrollo de Aplicaciones Web)",
+                "",
+                "Tecnologías y Habilidades:",
+                "--------------------------",
+                "* Lenguajes de Marca: HTML & CSS",
+                "* SQL",
+                "* Java",
+                "* Control de versiones: Git & GitHub",
+                "* Administración de sistemas: Bash",
+                "* Herramientas de construcción: Maven",
+                "",
+                "¡Gracias por ver mi presentación!"
+        ));
 
        //Inicializar la pantalla con Laterna
         Screen screen = new DefaultTerminalFactory().createScreen();
@@ -59,9 +63,8 @@ public class Main {
             //Dibujar el texto
             drawFrame(screen, guion, yOffset);
 
-            //Esperar velocidadAnimacion con try-catch
             try {
-                Thread.sleep(velocidadAnimacion);
+                Thread.sleep(VELOCIDAD_ANIMACION); // Pausa para controlar la velocidad de la animación
             } catch (InterruptedException ignored) { }
 
             // Cambiar el offset (mover hacia arriba)
@@ -75,12 +78,10 @@ public class Main {
             }
         }
 
-        //screen.stopScreen();
-
     }
 
     // Este método se encarga de dibujar un "fotograma" de la animación
-    private static void drawFrame(Screen screen, ArrayList<String> guion, int yOffset) throws IOException {
+    private static void drawFrame(Screen screen, List<String> guion, int yOffset) throws IOException {
         TerminalSize size = screen.getTerminalSize();
         int width = size.getColumns();
         int height = size.getRows();
